@@ -5,10 +5,10 @@ import "./globals.css";
 const monaSans = Mona_Sans({
   variable: "--font-mona-sans",
   subsets: ["latin"],
-}); 
+});
 
 export const metadata: Metadata = {
-  title: "Task Manager",
+  title: "Tick | Task Manager",
   description: "A modern looking task managers that supports CRUD operations",
 };
 
@@ -19,11 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body
-        className={`${monaSans.className} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${monaSans.className} antialiased`}>{children}</body>
     </html>
   );
 }
