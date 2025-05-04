@@ -10,8 +10,8 @@ const monaSans = Mona_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Interview Prep",
-  description: "An AI-powered platform for preparing for mock interviews",
+  title: "Tick | Task Manager",
+  description: "A task manager that supports CRUD operations",
 };
 
 export default function RootLayout({
