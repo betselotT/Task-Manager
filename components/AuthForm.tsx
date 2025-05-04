@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import Link from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 import { toast } from "sonner";
 import { auth } from "@/firebase/client";
 import { useForm } from "react-hook-form";
@@ -18,7 +18,9 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 
 import { signIn, signUp } from "@/lib/actions/auth.action";
-import FormField from "./FormField";
+import CustomFormField from "./FormField";
+
+type FormType = "sign-in" | "sign-up";
 
 const authFormSchema = (type: FormType) => {
   return z.object({
@@ -98,22 +100,28 @@ const AuthForm = ({ type }: { type: FormType }) => {
   const isSignIn = type === "sign-in";
 
   return (
-    <div className="card-border lg:min-w-[566px]">
-      <div className="flex flex-col gap-6 card py-14 px-10">
-        <div className="flex flex-row gap-2 justify-center">
-          {/* <Image src="/logo.svg" alt="logo" height={32} width={38} /> */}
-          <h2 className="text-primary-100">Interview Prep</h2>
-        </div>
+    <div className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-xl space-y-8 rounded-xl bg-gradient-to-br from-blue-950 to-blue-800 p-10 shadow-2xl">
+        <div className="text-center">
+          <div className="mx-auto flex justify-center">
+            {/* <Image src="/logo.svg" alt="logo" height={32} width={38} /> */}
+            <h2 className="ml-2 text-2xl font-bold text-white">
+              Tick | Task Manager
+            </h2>
+          </div>
 
-        <h3>Practice job interviews with AI</h3>
+          <h5 className="mt-3 text-lg font-medium text-blue-100">
+            Stay On Track: One Tick At A Time
+          </h5>
+        </div>
 
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-6 mt-4 form"
+            className="mt-8 space-y-6"
           >
             {!isSignIn && (
-              <FormField
+              <CustomFormField
                 control={form.control}
                 name="name"
                 label="Name"
@@ -122,7 +130,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
               />
             )}
 
-            <FormField
+            <CustomFormField
               control={form.control}
               name="email"
               label="Email"
@@ -130,7 +138,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
               type="email"
             />
 
-            <FormField
+            <CustomFormField
               control={form.control}
               name="password"
               label="Password"
@@ -138,17 +146,20 @@ const AuthForm = ({ type }: { type: FormType }) => {
               type="password"
             />
 
-            <Button className="btn" type="submit">
+            <Button
+              type="submit"
+              className="w-full rounded-md py-3 text-sm font-medium bg-blue-500 hover:bg-blue-400 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg cursor-pointer"
+            >
               {isSignIn ? "Sign In" : "Create an Account"}
             </Button>
           </form>
         </Form>
 
-        <p className="text-center">
-          {isSignIn ? "No account yet?" : "Have an account already?"}
+        <p className="mt-6 text-center text-sm text-blue-100">
+          {isSignIn ? "No Account Yet?" : "Have An Account Already?"}{" "}
           <Link
             href={!isSignIn ? "/sign-in" : "/sign-up"}
-            className="font-bold text-user-primary ml-1"
+            className="font-medium text-blue-300 hover:text-white transition-colors duration-300 hover:underline"
           >
             {!isSignIn ? "Sign In" : "Sign Up"}
           </Link>

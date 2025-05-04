@@ -3,19 +3,43 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-  --bg-pattern: url("/pattern.png");
+/* globals.css */
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 
-@layer components {
-  .auth-layout {
-    @apply flex items-center justify-center mx-auto max-w-7xl min-h-screen max-sm:px-4 max-sm:py-8;
-  }
-
-  .card-border {
-    @apply border-gradient p-0.5 rounded-2xl w-fit;
-  }
+h2 {
+  font-size: 2rem;
+  font-weight: bold;
 }
+
+h3 {
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+h5 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+p {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -131,8 +155,4 @@
   body {
     @apply bg-background text-foreground;
   }
-}
-
-@utility pattern {
-  @apply bg-[url('/pattern.png')] bg-top bg-no-repeat;
 }
