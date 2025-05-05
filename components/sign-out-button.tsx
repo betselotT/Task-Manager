@@ -23,6 +23,7 @@ const SignOutButton = () => {
       className="flex items-center gap-2 text-primary-100 cursor-pointer"
     >
       <span>{isPending ? "Signing out..." : <LogOut size={40} />}</span>
+      {/* Some Comment */}
     </button>
   );
 };
