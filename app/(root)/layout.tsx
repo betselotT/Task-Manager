@@ -12,7 +12,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="root-layout">
-      <nav className="flex items-center p-10">
+      <nav className="flex items-center p-10 gap-400">
         <Link href="/" className="flex items-center">
           <Image src="/logo.png" alt="Tick Logo" width={60} height={60} />
           <h2 className="text-primary-100">Tick</h2>

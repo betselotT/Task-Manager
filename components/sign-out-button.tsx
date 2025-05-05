@@ -1,9 +1,9 @@
 "use client";
 
 import { useTransition } from "react";
-import { signOut } from "@/lib/actions/auth.action";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { signOut } from "@/lib/actions/auth.action";
+import { LogOut } from "lucide-react";
 
 const SignOutButton = () => {
   const router = useRouter();
@@ -11,8 +11,8 @@ const SignOutButton = () => {
 
   const handleSignOut = () => {
     startTransition(async () => {
-      await signOut(); // this will clear the session
-      router.push("/sign-in"); // redirect to sign-in page
+      await signOut();
+      router.push("/sign-in");
     });
   };
 
@@ -20,10 +20,9 @@ const SignOutButton = () => {
     <button
       onClick={handleSignOut}
       disabled={isPending}
-      className="flex items-center gap-2"
+      className="flex items-center gap-2 text-primary-100 cursor-pointer"
     >
-      <Image src="/logout.png" alt="Logout" width={38} height={32} />
-      <h2 className="text-primary-100">{isPending ? "Signing out..." : "Sign Out"}</h2>
+      <span>{isPending ? "Signing out..." : <LogOut size={40} />}</span>
     </button>
   );
 };
