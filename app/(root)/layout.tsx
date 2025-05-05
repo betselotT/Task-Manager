@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
 import { isAuthenticated } from "@/lib/actions/auth.action";
+import SignOutButton from "@/components/sign-out-button";
 
 const Layout = async ({ children }: { children: ReactNode }) => {
   const isUserAuthenticated = await isAuthenticated();
@@ -11,11 +12,12 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="root-layout">
-      <nav>
-        <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.png" alt="MockMate Logo" width={38} height={32} />
+      <nav className="flex items-center p-10">
+        <Link href="/" className="flex items-center">
+          <Image src="/logo.png" alt="Tick Logo" width={60} height={60} />
           <h2 className="text-primary-100">Tick</h2>
         </Link>
+        <SignOutButton />
       </nav>
 
       {children}
