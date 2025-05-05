@@ -1,14 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { z } from "zod";
 import Link from "next/link";
-// import Image from "next/image";
 import { toast } from "sonner";
 import { auth } from "@/firebase/client";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -16,7 +15,7 @@ import {
 
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-
+import { Loader2 } from "lucide-react"; // ✅ import spinner
 import { signIn, signUp } from "@/lib/actions/auth.action";
 import CustomFormField from "./FormField";
 
@@ -32,6 +31,7 @@ const authFormSchema = (type: FormType) => {
 
 const AuthForm = ({ type }: { type: FormType }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false); // ✅ loading state
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -44,10 +44,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true); // ✅ start loading
     try {
       if (type === "sign-up") {
         const { name, email, password } = data;
-
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
@@ -63,6 +63,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
         if (!result.success) {
           toast.error(result.message);
+          setIsLoading(false); // ✅ stop loading
           return;
         }
 
@@ -70,7 +71,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
         router.push("/sign-in");
       } else {
         const { email, password } = data;
-
         const userCredential = await signInWithEmailAndPassword(
           auth,
           email,
@@ -80,6 +80,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         const idToken = await userCredential.user.getIdToken();
         if (!idToken) {
           toast.error("Sign in Failed. Please try again.");
+          setIsLoading(false); // ✅ stop loading
           return;
         }
 
@@ -94,6 +95,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
     } catch (error) {
       console.log(error);
       toast.error(`There was an error: ${error}`);
+    } finally {
+      setIsLoading(false); // ✅ always stop loading
     }
   };
 
@@ -104,12 +107,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
       <div className="w-full max-w-xl space-y-8 rounded-xl bg-gradient-to-br from-blue-950 to-blue-800 p-10 shadow-2xl">
         <div className="text-center">
           <div className="mx-auto flex justify-center">
-            {/* <Image src="/logo.svg" alt="logo" height={32} width={38} /> */}
             <h2 className="ml-2 text-2xl font-bold text-white">
               Tick | Task Manager
             </h2>
           </div>
-
           <h5 className="mt-3 text-lg font-medium text-blue-100">
             Stay On Track: One Tick At A Time
           </h5>
@@ -148,9 +149,16 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
             <Button
               type="submit"
-              className="w-full rounded-md py-3 text-sm font-medium bg-blue-500 hover:bg-blue-400 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg cursor-pointer"
+              className="w-full rounded-md py-3 text-sm font-medium bg-blue-500 hover:bg-blue-400 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg cursor-pointer flex items-center justify-center"
+              disabled={isLoading}
             >
-              {isSignIn ? "Sign In" : "Create an Account"}
+              {isLoading ? (
+                <Loader2 className="w-5 h-5 animate-spin text-white" />
+              ) : isSignIn ? (
+                "Sign In"
+              ) : (
+                "Create an Account"
+              )}
             </Button>
           </form>
         </Form>
